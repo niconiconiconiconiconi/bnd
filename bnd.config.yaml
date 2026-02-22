@@ -1,0 +1,126 @@
+aesthetic:
+  style: rpg          # rpg | minimal — controls message tone
+  messages:
+    xp_gained: "+{xp} XP — {task_title}"
+    level_up: "Level {level} reached. You are now a {title}."
+    achievement: "Achievement unlocked: {name}"
+    checkpoint: "Rest stop. {xp} XP this leg."
+    epic_bonus: "Epic closed. +{xp} bonus XP."
+    new_shards: "+{shards} Shards earned."
+
+xp:
+  priority:
+    p0: 100
+    p1: 50
+    p2: 25
+    p3: 10
+    default: 10
+  subtask_multiplier: 0.25
+  epic_bonus: 200
+  bonuses:
+    blocker: 0.50      # multiplier added if task unblocked 2+ others
+    same_day: 0.25     # multiplier added if closed same day as created
+
+currency:
+  name: Shards
+  symbol: "💎"
+  rate: 0.1            # shards per XP, floored to int
+
+skills:
+  auto_tag: true
+  default: build       # fallback skill if no keyword matches
+  keywords:
+    build:  "feat|add|implement|ship|create|build|complete|finish|integrate"
+    debug:  "fix|bug|error|crash|broken|patch|resolve|revert|hotfix"
+    design: "refactor|architect|redesign|restructure|spec|plan|model|abstract"
+    ops:    "deploy|infra|ci|pipeline|migrate|monitor|release|provision|automate"
+    learn:  "research|spike|doc|read|explore|investigate|review|study|prototype"
+
+levels:
+  - level: 1
+    xp: 0
+    title: "Apprentice"
+  - level: 2
+    xp: 100
+    title: "Journeyman"
+  - level: 3
+    xp: 300
+    title: "Craftsman"
+  - level: 4
+    xp: 700
+    title: "Engineer"
+  - level: 5
+    xp: 1500
+    title: "Architect"
+  - level: 6
+    xp: 3000
+    title: "Veteran"
+  - level: 7
+    xp: 6000
+    title: "Principal"
+  - level: 8
+    xp: 12000
+    title: "Legend"
+
+checkpoints:
+  interval: 500
+  prompt: "What did you learn this leg? What do you want to focus on next?"
+
+achievements:
+  - id: firefighter
+    name: "Firefighter"
+    description: "Close your first P0 task."
+    condition_type: close_priority
+    condition_priority: p0
+    condition_count: 1
+  - id: bomb_defuser
+    name: "Bomb Defuser"
+    description: "Close 5 P0 tasks."
+    condition_type: close_priority
+    condition_priority: p0
+    condition_count: 5
+  - id: speed_run
+    name: "Speed Run"
+    description: "Close 3 tasks in a single day."
+    condition_type: daily_closes
+    condition_count: 3
+  - id: unlocker
+    name: "Unlocker"
+    description: "Close a task that was blocking 3 or more others."
+    condition_type: unblocked
+    condition_count: 3
+  - id: quest_complete
+    name: "Quest Complete"
+    description: "Close your first epic."
+    condition_type: epic_closed
+    condition_count: 1
+  - id: epic_slayer
+    name: "Epic Slayer"
+    description: "Close 5 epics."
+    condition_type: epic_closed
+    condition_count: 5
+  - id: consistent
+    name: "Consistent"
+    description: "Close at least one task per day for 5 days straight."
+    condition_type: streak
+    condition_count: 5
+  - id: on_fire
+    name: "On Fire"
+    description: "Close at least one task per day for 14 days straight."
+    condition_type: streak
+    condition_count: 14
+  - id: master_builder
+    name: "Master Builder"
+    description: "Reach level 5 in the Build skill."
+    condition_type: skill_level
+    condition_skill: build
+    condition_count: 5
+  - id: scholar
+    name: "Scholar"
+    description: "Close 10 Learn-tagged tasks."
+    condition_type: skill_tasks
+    condition_skill: learn
+    condition_count: 10
+
+obsidian:
+  vault_path: "~/Documents/Obsidian/BnD"
